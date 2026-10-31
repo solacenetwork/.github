@@ -6,7 +6,7 @@ SOLACE Network aims to support affordable, energy-efficient, and interoperable h
 
 The long-term objective is to help communities build and maintain their own computing and communication infrastructure without depending exclusively on commercial service providers or proprietary equipment.
 
-This document describes the proposed hardware architecture, device terminology, reference configurations, power considerations, and future research concepts.
+This document describes the proposed hardware architecture, device terminology, reference configurations, power considerations, and future implementation requirements.
 
 It is a planning document, not a finalized hardware specification.
 
@@ -313,35 +313,17 @@ Compatibility should not be assumed merely because connectors or voltages appear
 
 ### 7.4 Renewable power
 
-Potential power sources discussed include:
+Potential conventional power sources discussed include:
 
 - Solar photovoltaic systems.
 - Small wind systems.
 - Micro-hydroelectric systems where appropriate.
-- Pedal-powered charging.
-- Other experimental mechanical or thermal energy systems.
 
-Solar generation and battery storage are likely candidates for early evaluation because commercial equipment is readily available.
+Solar generation and battery storage are candidates for early evaluation because commercial equipment is readily available.
 
 No SOLACE-specific renewable power system has been finalized.
 
-### 7.5 Experimental energy concepts
-
-Several exploratory ideas were discussed:
-
-- Pedal-generation arrays involving several riders.
-- Stirling engines using solar heating or geothermal temperature differences.
-- Portable solar chimney concepts.
-- Water-powered trompe systems.
-- Tesla turbines for hydroelectric applications.
-- Underground spring and flywheel energy storage.
-- Thermoelectric generators.
-
-These are research ideas, not validated SOLACE hardware designs or commitments.
-
-Feasibility, energy output, efficiency, safety, and practical costs would need to be evaluated independently.
-
-They may be more appropriately developed as separate experiments rather than core hardware components.
+Experimental energy-generation methods are documented separately in `SOLACE_SCIENTIFIC_RESEARCH_TOPICS.md`.
 
 ## 8. Displays and User Interfaces
 
@@ -461,8 +443,6 @@ Advanced batteries, specialized enclosures, radio networking, and decentralized 
 
 ## 13. Open Questions
 
-Areas requiring future decisions include:
-
 ### Computing
 
 - What minimum SHD specifications are practical?
@@ -499,4 +479,5 @@ Areas requiring future decisions include:
 - [Identity and Governance](IDENTITY_AND_GOVERNANCE.md) — Household, member, and neighborhood identities.
 - [Roadmap](ROADMAP.md) — High-level development stages.
 - [Branding and Marketing](BRANDING_AND_MARKETING.md) — SOLACE device identity and compatibility branding.
-- [Parking Lot](PARKING_LOT.md) — Experimental energy concepts and deferred hardware ideas.
+- [Scientific Research Topics](SOLACE_SCIENTIFIC_RESEARCH_TOPICS.md) — Experimental energy and scientific research ideas.
+- [Parking Lot](PARKING_LOT.md) — Deferred product and software ideas.
