@@ -90,6 +90,20 @@ A community might create its own collection of instructional materials, while a 
 
 Our goal is to make knowledge easier to preserve, organize, and share.
 
+## Back to Basics, Made Easier
+
+Over time, many of us have become increasingly dependent on specialized services and technologies for things that previous generations often knew how to do themselves.
+
+Gardening, repairing equipment, preserving food, maintaining a home, and sharing practical skills are examples of knowledge worth preserving.
+
+SOLACE Network aims to make this knowledge easier to discover, learn, teach, and share.
+
+We're not suggesting that everyone needs to become completely self-sufficient or abandon modern conveniences. Instead, we want people to have more choices and greater confidence in their ability to solve everyday problems.
+
+A neighbor who knows how to grow vegetables might help someone planting their first garden. Someone with mechanical experience might share repair instructions. Families could exchange educational materials or document skills passed down through generations.
+
+By combining traditional knowledge with modern technology, communities can help preserve valuable skills while making them accessible to new generations.
+
 ## Community Science: Everyone Can Contribute
 
 Scientific discovery isn't limited to universities and professional laboratories.
