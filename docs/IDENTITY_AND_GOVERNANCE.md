@@ -341,3 +341,4 @@ The following questions require further discussion or phase-specific specificati
 - [Roadmap](ROADMAP.md) — High-level development priorities.
 - [Hardware](HARDWARE.md) — SHD architecture and compatible infrastructure.
 - [Parking Lot](PARKING_LOT.md) — Deferred technical and organizational ideas.
+- [Neighborhood Membership](NEIGHBORHOOD_MEMBERSHIP.md) - defines how neighborhoods are created and households join them.
