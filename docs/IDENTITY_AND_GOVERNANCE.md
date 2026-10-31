@@ -123,6 +123,8 @@ A neighborhood may have a Captain responsible for routine administration and coo
 
 Exact geographic membership and boundary-verification rules have not yet been finalized.
 
+Detailed rules for neighborhood creation, geographic boundaries, household eligibility, invitations, and transfers are documented in [Neighborhood Membership](NEIGHBORHOOD_MEMBERSHIP.md).
+
 ## 3. Initial Membership and Leadership
 
 ### 3.1 Creating a household
