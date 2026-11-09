@@ -513,6 +513,21 @@ Test local usability, service restart after logout/reboot, resource usage, upgra
 
 ---
 
+### Reference equipment selection and field deployment
+
+The two-household lab should compare *actual hardware revisions* rather than assume that a product family is uniformly supported by OpenWrt. Routers raised for investigation included Dynalink DL-WRX36, GL.iNet Flint 2 (GL-MT6000), Asus TUF AX6000 / AX4200, selected Xiaomi AX-series models, and small Banana Pi / NanoPi systems. **These are research candidates, not approved or confirmed compatible purchases.** Check current OpenWrt target support, radio drivers, available flash/RAM, power needs, antenna interfaces, and revision-specific caveats before buying.
+
+A useful progression is to run two isolated household environments in one lab, relocate one to a participating neighbor, and then investigate a direct wireless link. Two endpoints can validate connectivity, but a **third routing point is needed to demonstrate true multi-hop behavior**. Test the real terrain and interference rather than assume indoor results predict neighborhood range.
+
+Early test equipment could be supplied by the project to volunteers as a development expense. Long-term deployment should support self-assembled, donated, reused, or optionally purchased reference kits, with published bill of materials and compatibility criteria. An approximately $1,000 multi-component kit has been considered as an illustrative *option*, not a price commitment or participation requirement.
+
+### Resilience power boundaries
+
+Document which components actually remain powered during a mains outage: SHD, router, access point, radio, storage, and any gateway may have different battery arrangements. A battery-backed router alone cannot keep services available on an unpowered SHD. Measure energy draw and realistic runtime before setting outage-survival targets. Renewable generation and larger home batteries are optional extensions, not prerequisites.
+
+
+---
+
 ## 14. Related Documentation
 
 - [Network Overview](NETWORK_OVERVIEW.md) — Network evolution, connectivity, and distributed infrastructure.
