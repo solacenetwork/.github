@@ -472,6 +472,62 @@ Advanced batteries, specialized enclosures, radio networking, and decentralized 
 - How should third-party compatibility be verified?
 - How can hardware instructions remain accessible to nontechnical participants?
 
+## Proposed SOS Family Desktop and Appliance Experience
+
+The SOS reference installation is envisioned as a **usable household computer as well as a continuously operating network node**. LMDE with Cinnamon is the preferred starting point for the reference desktop, rather than assuming every SHD is a headless server. A headless or third-party Linux installation may still be compatible.
+
+The intended end-user sequence is: **Download → Write installation media → Install → Set up → Log in → Share**. A future SOS installation image could bundle tested configurations, Docker/Compose service definitions, first-run configuration, and desktop launchers. This is a distribution goal, not a claim that an installable SOS ISO exists today.
+
+### Host and service separation
+
+```mermaid
+flowchart TB
+    U["Family members at Cinnamon desktop"] --> UI["SOLACE web UI / desktop launcher"]
+    M["Phones, tablets and remote browsers"] --> UI
+    UI --> L["Laravel household meta manager"]
+    subgraph D["Docker-managed household services"]
+        L
+        NC["Nextcloud: family organization"]
+        PG["Peergos: proposed distributed sharing"]
+        DB["Database, queues and supporting services"]
+    end
+    L --> NC
+    L --> PG
+    L --> DB
+    D --> OS["LMDE host: Linux accounts, storage, networking, systemd"]
+```
+
+Services should start independently of any Cinnamon login, recover after reboot, and preserve data outside disposable container layers. Container updates, migrations, backup/restore, and service health checks require tested procedures. Host and container permissions must prevent ordinary desktop users from gaining infrastructure administration rights; membership in the Docker group is effectively privileged.
+
+### Linux accounts versus SOLACE identities
+
+All household members are expected to have SOLACE accounts, but **not all members need Linux desktop accounts**. The Head of Household may administer the host, while other desktop users have ordinary Linux accounts. SOLACE application authorization is separate from Linux login privileges.
+
+An optional restricted, disposable Linux guest session could permit someone to open a browser and authenticate to their *own* SOLACE account, reaching their home services through the network. The guest session must not inherit the host household's credentials; temporary browser data should be cleared. Disposable guest-session behavior requires explicit implementation and testing rather than assuming LMDE provides it automatically.
+
+### Reference lab and validation
+
+An initial reproducible lab could use two Linux mini PCs and two OpenWrt-compatible routers to simulate separate households, first on isolated LANs and later at separate physical sites. Record hardware revisions, software versions, installation steps, expected results, recovery procedures, and actual measurements. The first reference neighborhood should be a **tested example**, not mandatory hardware.
+
+Test local usability, service restart after logout/reboot, resource usage, upgrades, backups, power consumption, and progressively more severe connectivity and power interruptions. Battery-backed networking is a possible future capability, not a baseline requirement.
+
+---
+
+### Reference equipment selection and field deployment
+
+The two-household lab should compare *actual hardware revisions* rather than assume that a product family is uniformly supported by OpenWrt. Routers raised for investigation included Dynalink DL-WRX36, GL.iNet Flint 2 (GL-MT6000), Asus TUF AX6000 / AX4200, selected Xiaomi AX-series models, and small Banana Pi / NanoPi systems. **These are research candidates, not approved or confirmed compatible purchases.** Check current OpenWrt target support, radio drivers, available flash/RAM, power needs, antenna interfaces, and revision-specific caveats before buying.
+
+A useful progression is to run two isolated household environments in one lab, relocate one to a participating neighbor, and then investigate a direct wireless link. Two endpoints can validate connectivity, but a **third routing point is needed to demonstrate true multi-hop behavior**. Test the real terrain and interference rather than assume indoor results predict neighborhood range.
+
+Early test equipment could be supplied by the project to volunteers as a development expense. Long-term deployment should support self-assembled, donated, reused, or optionally purchased reference kits, with published bill of materials and compatibility criteria. An approximately $1,000 multi-component kit has been considered as an illustrative *option*, not a price commitment or participation requirement.
+
+### Resilience power boundaries
+
+Document which components actually remain powered during a mains outage: SHD, router, access point, radio, storage, and any gateway may have different battery arrangements. A battery-backed router alone cannot keep services available on an unpowered SHD. Measure energy draw and realistic runtime before setting outage-survival targets. Renewable generation and larger home batteries are optional extensions, not prerequisites.
+
+
+---
+
 ## 14. Related Documentation
 
 - [Network Overview](NETWORK_OVERVIEW.md) — Network evolution, connectivity, and distributed infrastructure.

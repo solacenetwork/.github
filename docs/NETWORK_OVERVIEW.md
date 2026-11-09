@@ -635,6 +635,80 @@ These questions should be addressed in appropriate phase-specific specifications
 
 ---
 
+## Proposed Household Meta-Manager and Service Architecture
+
+A proposed architectural direction is for **each SHD to run a local Laravel-based meta manager**, coordinating household services and accepting authorized work from other household managers. The central SOLACE Server initially assists with identity, discovery, routing, and cross-household coordination, but should not be required to process every file or perform every local task.
+
+```mermaid
+flowchart TB
+    C["Central SOLACE coordination: identity, discovery, job routing"]
+    C <--> A["Household A: Laravel meta manager"]
+    C <--> B["Household B: Laravel meta manager"]
+    A --> AN["Nextcloud / private family services"]
+    A --> AP["Peergos / shared files and library"]
+    B --> BN["Nextcloud / private family services"]
+    B --> BP["Peergos / shared files and library"]
+    AP <-. "Direct authorized data exchange when possible" .-> BP
+    A <-. "Future authenticated peer coordination" .-> B
+```
+
+### Capability-oriented integration
+
+SOS applications should expose familiar tasks—**Home, Family, Files, Neighborhood, Library**—rather than require users to operate separate third-party interfaces. The manager can use service adapters for capabilities such as files, calendars, contacts, messaging, and search. Nextcloud is a candidate for locally hosted family organization; Peergos is a candidate for distributed file sharing and shared libraries. Both are **proposed integrations**, not mandatory components or confirmed interoperability.
+
+Example: a member selects a document in SOLACE Library and chooses **Share with Neighbor**. The local manager records the requested operation, obtains authorized access to the source, coordinates with the destination household, delegates transfers to appropriate services, verifies results, and reports status. The user should not need to understand which services executed the steps.
+
+### Durable cross-household work
+
+Laravel queues, scheduled jobs, and local persistence can support retries and reconciliation. A proposed cross-household protocol should distinguish **requested**, **accepted**, **in progress**, **delivered**, **verified**, and **failed** states as appropriate. Jobs need stable IDs, authenticated authorization, idempotent handlers, bounded retries, expiration, and recovery after interrupted connectivity. A queue acknowledgment is not proof that a recipient received or can open a file.
+
+The central coordinator may relay *control messages* without carrying file payloads. Household managers remain authoritative for their own local operations and must validate authorization independently. Private household data should remain private by default; publishing or sharing is an explicit action.
+
+### Portable identity and guest-device access
+
+A member may sign into `solace.network` from a guest browser on another household's computer and request authorized access to services hosted on their own SHD. The local Linux guest identity, SOLACE member identity, and remote household authority are distinct. Discovery and secure routing may initially use central infrastructure; the home node still enforces access controls. Short-lived sessions and removal of guest browser state are important safeguards.
+
+### Evolution toward independence
+
+```mermaid
+flowchart LR
+    P1["Central coordination"] --> P2["Household managers execute locally"]
+    P2 --> P3["Neighborhood peer coordination"]
+    P3 --> P4["Independent federated neighborhoods"]
+```
+
+The long-term aim is to remove the **central server as a required dependency**, not necessarily to prohibit optional public bootstrap, directory, or gateway services. Local household functions should continue when the central service is unavailable; later phases should test peer discovery, identity verification, job coordination, and service access during internet outages and network partitions. Decentralized identity, trust, revocation, and recovery remain unresolved design challenges.
+
+---
+
+### Household transport and execution alternatives
+
+A possible early deployment uses outbound connections from SHDs to the central coordinator so ordinary home routers do not require inbound port forwarding. Cloudflare Tunnels are an existing prototype option; a future OpenWrt router may provide a more direct WireGuard or other authenticated overlay path. None of these should be embedded as the sole permanent transport.
+
+A Tauri application with a Rust backend is another **candidate client or local integration tool**, particularly when a desktop user needs controlled filesystem access or native network operations. Tauri's WebSocket client support should not be mistaken for a persistent peer server: a Rust service using an appropriate networking stack would be needed for inbound connections or long-running background operation. Browser/PWA access and Laravel household services remain separate architectural concerns. A desktop GUI need not remain open for the household node to work.
+
+```mermaid
+flowchart LR
+    U["Browser / PWA / optional Tauri client"] --> H["Local Laravel household manager"]
+    H --> Q["Durable jobs + service adapters"]
+    H <-->|"Authenticated control channel"| C["Central coordinator, initially"]
+    H <-.->|"Future direct VPN / mesh path"| P["Peer household manager"]
+    Q --> F["Local files, calendars, library services"]
+```
+
+### Identity and service access boundaries
+
+A household's HID, an individual MID, a physical SHD, a Linux desktop login, and an authenticated browser session are different entities. A member visiting another household may use that household's **computer and network** without gaining membership in it or access to its private resources. Authentication to the member's home services should not implicitly trust the visited machine; remote access requires explicit authorization, protected credentials, and session cleanup.
+
+The eventual independent network needs a way to verify identity and trust when the central service cannot be contacted. Key lifecycle, recovery, revocation, conflicting records, and discovery across disconnected neighborhoods are unresolved and must be tested before central identity services can become optional.
+
+### Failure modes to validate
+
+Test separate failures rather than treating “offline” as a single condition: internet lost but LAN intact; central coordination unavailable; local SHD down; one mesh router down; power lost to some but not all equipment; and a neighborhood partition that later heals. Record which operations work, which are queued, what data remains available, and what must be reconciled after reconnection. Never assume replication, store-and-forward, or alternate routes exist until implemented and verified.
+
+
+---
+
 ## 15. Related Documentation
 
 - [Vision](VISION.md) — Long-term purpose and aspirations.
