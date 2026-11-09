@@ -524,6 +524,38 @@ This remains a foundational long-term direction, even though many particular imp
 
 ---
 
+## Additional SOS Integration and Resilience Experiments
+
+The following ideas arose during exploration of a family-oriented LMDE/SOS reference installation and distributed household service coordination. **None are approved implementation requirements or assigned to a release.**
+
+### Service adapters and unified Library
+
+Investigate a provider-neutral SOS Files/Library interface that can coordinate Nextcloud private household storage, Peergos decentralized sharing, and other compatible providers. Explore Peergos WebDAV bridge, application APIs, FUSE mounting, replication, sharing, and actual offline behavior. Verify API boundaries and permissions rather than assuming feature parity. Consider a workflow that copies or explicitly publishes a private document into a shared resource, rather than exposing private storage wholesale.
+
+### Laravel meta-manager proof of concept
+
+Prototype two local Laravel managers coordinating durable, authenticated work through a central server. Evaluate queue workers, scheduled reconciliation, duplicate-message safety, offline recipients, retries, revocation, and eventual direct manager-to-manager coordination. Distinguish control-plane traffic from direct data transfers. Keep the central server removable from the long-term design.
+
+### Family desktop, guest access and packaging
+
+Explore a customized LMDE/Cinnamon SOS ISO with Docker-managed services, desktop launchers for web applications, first-run household configuration, and normal Linux accounts for desktop users. Every household member would have a SOLACE identity, but only those using the desktop need Linux accounts. Test an isolated, disposable Linux guest session from which a visitor can authenticate to their *own* remote SOS box. Assess how best to build, sign, distribute, upgrade, and recover an installation image.
+
+### Two-household reference lab
+
+Use two inexpensive Linux mini PCs and two OpenWrt-compatible routers as separate household test environments. Begin with isolated networks, then test remote placement, secure connectivity, direct transfers, service discovery, and eventually wireless links. Evaluate 802.11s, batman-adv, WireGuard, and compatible hardware revisions only after confirming actual device support. Document exact steps, results, costs, failures, and recovery, with reproducible written guides and optional videos.
+
+### Progressive resilience tests
+
+- **Level 1 — Internet unavailable:** Verify local household functions and reachable neighborhood services.
+- **Level 2 — Utility power unavailable:** Measure what survives on battery-backed computers, routers, or radios; distinguish unavailable equipment from software failure.
+- **Level 3 — Central SOLACE server unavailable:** Test local autonomy, peer discovery, and coordination without central services.
+- **Level 4 — Household nodes unavailable:** Test replication assumptions, degraded service, pending jobs, and recovery when nodes return.
+- **Level 5 — Original maintainer unavailable:** Confirm that independent operators can install, troubleshoot, update, and expand a reference network using published documentation.
+
+These are **proposed experiments**, not claims of verified offline operation. The sequence should be adapted to hardware, safety, and practical test conditions.
+
+---
+
 ## 11. Moving Ideas Out of the Parking Lot
 
 Ideas in this document have no implied priority.
