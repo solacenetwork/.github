@@ -681,6 +681,34 @@ The long-term aim is to remove the **central server as a required dependency**, 
 
 ---
 
+### Household transport and execution alternatives
+
+A possible early deployment uses outbound connections from SHDs to the central coordinator so ordinary home routers do not require inbound port forwarding. Cloudflare Tunnels are an existing prototype option; a future OpenWrt router may provide a more direct WireGuard or other authenticated overlay path. None of these should be embedded as the sole permanent transport.
+
+A Tauri application with a Rust backend is another **candidate client or local integration tool**, particularly when a desktop user needs controlled filesystem access or native network operations. Tauri's WebSocket client support should not be mistaken for a persistent peer server: a Rust service using an appropriate networking stack would be needed for inbound connections or long-running background operation. Browser/PWA access and Laravel household services remain separate architectural concerns. A desktop GUI need not remain open for the household node to work.
+
+```mermaid
+flowchart LR
+    U["Browser / PWA / optional Tauri client"] --> H["Local Laravel household manager"]
+    H --> Q["Durable jobs + service adapters"]
+    H <-->|"Authenticated control channel"| C["Central coordinator, initially"]
+    H <-.->|"Future direct VPN / mesh path"| P["Peer household manager"]
+    Q --> F["Local files, calendars, library services"]
+```
+
+### Identity and service access boundaries
+
+A household's HID, an individual MID, a physical SHD, a Linux desktop login, and an authenticated browser session are different entities. A member visiting another household may use that household's **computer and network** without gaining membership in it or access to its private resources. Authentication to the member's home services should not implicitly trust the visited machine; remote access requires explicit authorization, protected credentials, and session cleanup.
+
+The eventual independent network needs a way to verify identity and trust when the central service cannot be contacted. Key lifecycle, recovery, revocation, conflicting records, and discovery across disconnected neighborhoods are unresolved and must be tested before central identity services can become optional.
+
+### Failure modes to validate
+
+Test separate failures rather than treating “offline” as a single condition: internet lost but LAN intact; central coordination unavailable; local SHD down; one mesh router down; power lost to some but not all equipment; and a neighborhood partition that later heals. Record which operations work, which are queued, what data remains available, and what must be reconciled after reconnection. Never assume replication, store-and-forward, or alternate routes exist until implemented and verified.
+
+
+---
+
 ## 15. Related Documentation
 
 - [Vision](VISION.md) — Long-term purpose and aspirations.
