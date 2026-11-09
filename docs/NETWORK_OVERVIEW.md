@@ -635,6 +635,52 @@ These questions should be addressed in appropriate phase-specific specifications
 
 ---
 
+## Proposed Household Meta-Manager and Service Architecture
+
+A proposed architectural direction is for **each SHD to run a local Laravel-based meta manager**, coordinating household services and accepting authorized work from other household managers. The central SOLACE Server initially assists with identity, discovery, routing, and cross-household coordination, but should not be required to process every file or perform every local task.
+
+```mermaid
+flowchart TB
+    C["Central SOLACE coordination: identity, discovery, job routing"]
+    C <--> A["Household A: Laravel meta manager"]
+    C <--> B["Household B: Laravel meta manager"]
+    A --> AN["Nextcloud / private family services"]
+    A --> AP["Peergos / shared files and library"]
+    B --> BN["Nextcloud / private family services"]
+    B --> BP["Peergos / shared files and library"]
+    AP <-. "Direct authorized data exchange when possible" .-> BP
+    A <-. "Future authenticated peer coordination" .-> B
+```
+
+### Capability-oriented integration
+
+SOS applications should expose familiar tasks—**Home, Family, Files, Neighborhood, Library**—rather than require users to operate separate third-party interfaces. The manager can use service adapters for capabilities such as files, calendars, contacts, messaging, and search. Nextcloud is a candidate for locally hosted family organization; Peergos is a candidate for distributed file sharing and shared libraries. Both are **proposed integrations**, not mandatory components or confirmed interoperability.
+
+Example: a member selects a document in SOLACE Library and chooses **Share with Neighbor**. The local manager records the requested operation, obtains authorized access to the source, coordinates with the destination household, delegates transfers to appropriate services, verifies results, and reports status. The user should not need to understand which services executed the steps.
+
+### Durable cross-household work
+
+Laravel queues, scheduled jobs, and local persistence can support retries and reconciliation. A proposed cross-household protocol should distinguish **requested**, **accepted**, **in progress**, **delivered**, **verified**, and **failed** states as appropriate. Jobs need stable IDs, authenticated authorization, idempotent handlers, bounded retries, expiration, and recovery after interrupted connectivity. A queue acknowledgment is not proof that a recipient received or can open a file.
+
+The central coordinator may relay *control messages* without carrying file payloads. Household managers remain authoritative for their own local operations and must validate authorization independently. Private household data should remain private by default; publishing or sharing is an explicit action.
+
+### Portable identity and guest-device access
+
+A member may sign into `solace.network` from a guest browser on another household's computer and request authorized access to services hosted on their own SHD. The local Linux guest identity, SOLACE member identity, and remote household authority are distinct. Discovery and secure routing may initially use central infrastructure; the home node still enforces access controls. Short-lived sessions and removal of guest browser state are important safeguards.
+
+### Evolution toward independence
+
+```mermaid
+flowchart LR
+    P1["Central coordination"] --> P2["Household managers execute locally"]
+    P2 --> P3["Neighborhood peer coordination"]
+    P3 --> P4["Independent federated neighborhoods"]
+```
+
+The long-term aim is to remove the **central server as a required dependency**, not necessarily to prohibit optional public bootstrap, directory, or gateway services. Local household functions should continue when the central service is unavailable; later phases should test peer discovery, identity verification, job coordination, and service access during internet outages and network partitions. Decentralized identity, trust, revocation, and recovery remain unresolved design challenges.
+
+---
+
 ## 15. Related Documentation
 
 - [Vision](VISION.md) — Long-term purpose and aspirations.
