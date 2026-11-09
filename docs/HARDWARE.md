@@ -472,6 +472,47 @@ Advanced batteries, specialized enclosures, radio networking, and decentralized 
 - How should third-party compatibility be verified?
 - How can hardware instructions remain accessible to nontechnical participants?
 
+## Proposed SOS Family Desktop and Appliance Experience
+
+The SOS reference installation is envisioned as a **usable household computer as well as a continuously operating network node**. LMDE with Cinnamon is the preferred starting point for the reference desktop, rather than assuming every SHD is a headless server. A headless or third-party Linux installation may still be compatible.
+
+The intended end-user sequence is: **Download → Write installation media → Install → Set up → Log in → Share**. A future SOS installation image could bundle tested configurations, Docker/Compose service definitions, first-run configuration, and desktop launchers. This is a distribution goal, not a claim that an installable SOS ISO exists today.
+
+### Host and service separation
+
+```mermaid
+flowchart TB
+    U["Family members at Cinnamon desktop"] --> UI["SOLACE web UI / desktop launcher"]
+    M["Phones, tablets and remote browsers"] --> UI
+    UI --> L["Laravel household meta manager"]
+    subgraph D["Docker-managed household services"]
+        L
+        NC["Nextcloud: family organization"]
+        PG["Peergos: proposed distributed sharing"]
+        DB["Database, queues and supporting services"]
+    end
+    L --> NC
+    L --> PG
+    L --> DB
+    D --> OS["LMDE host: Linux accounts, storage, networking, systemd"]
+```
+
+Services should start independently of any Cinnamon login, recover after reboot, and preserve data outside disposable container layers. Container updates, migrations, backup/restore, and service health checks require tested procedures. Host and container permissions must prevent ordinary desktop users from gaining infrastructure administration rights; membership in the Docker group is effectively privileged.
+
+### Linux accounts versus SOLACE identities
+
+All household members are expected to have SOLACE accounts, but **not all members need Linux desktop accounts**. The Head of Household may administer the host, while other desktop users have ordinary Linux accounts. SOLACE application authorization is separate from Linux login privileges.
+
+An optional restricted, disposable Linux guest session could permit someone to open a browser and authenticate to their *own* SOLACE account, reaching their home services through the network. The guest session must not inherit the host household's credentials; temporary browser data should be cleared. Disposable guest-session behavior requires explicit implementation and testing rather than assuming LMDE provides it automatically.
+
+### Reference lab and validation
+
+An initial reproducible lab could use two Linux mini PCs and two OpenWrt-compatible routers to simulate separate households, first on isolated LANs and later at separate physical sites. Record hardware revisions, software versions, installation steps, expected results, recovery procedures, and actual measurements. The first reference neighborhood should be a **tested example**, not mandatory hardware.
+
+Test local usability, service restart after logout/reboot, resource usage, upgrades, backups, power consumption, and progressively more severe connectivity and power interruptions. Battery-backed networking is a possible future capability, not a baseline requirement.
+
+---
+
 ## 14. Related Documentation
 
 - [Network Overview](NETWORK_OVERVIEW.md) — Network evolution, connectivity, and distributed infrastructure.
