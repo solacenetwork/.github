@@ -556,6 +556,29 @@ These are **proposed experiments**, not claims of verified offline operation. Th
 
 ---
 
+### Rust/Tauri desktop and peer networking research
+
+Investigate Tauri for an optional native SOS client with filesystem permissions and local integration, and Rust networking libraries for persistent peer services. Compare WebSocket connections, authenticated HTTP APIs, direct transfers, and VPN-based connectivity. The Tauri WebSocket plugin alone is not a peer-to-peer server. Keep native clients optional so browser users and compatible non-SOS devices can participate.
+
+### OpenWrt routing and connectivity trials
+
+Evaluate Cloudflare Tunnel for early remote reachability; WireGuard or comparable VPN overlays for direct authenticated household connections; and OpenWrt 802.11s / batman-adv for potential wireless mesh routing where hardware permits. Separate network-layer reachability from SOLACE identity and service authorization. Test NAT traversal, router isolation, guest traffic boundaries, interrupted tunnels, and multihop behavior. Do not select a final protocol or router model based only on feature lists.
+
+### Service capability experiments
+
+Compare Nextcloud WebDAV/CalDAV/CardDAV integrations with Peergos sharing and WebDAV bridge capabilities, including permission boundaries and the limits of each protocol. Investigate whether Peergos's sandboxed web applications or self-hosted repositories offer useful future extension points. Evaluate actual responsiveness, deployment complexity, offline operation, mirroring, and resource use; Peergos's Java implementation alone is not a reason to reject or rewrite it.
+
+### Reproducible neighborhood reference implementation
+
+Publish an installable or reproducible SOS configuration, tested Docker Compose definitions, compatible hardware list, OpenWrt configuration, network diagrams, security assumptions, installation instructions, and recovery procedures. Record results from two-household tests, then repeat with physically separated households. Supplement written instructions with demonstration videos where useful. A neighborhood should be able to replicate and maintain the system **without depending on the original developer**.
+
+### Central-server retirement criteria
+
+Before considering the Foundation-operated coordinator optional, demonstrate that authorized households can still authenticate, discover reachable peers, operate local services, exchange permitted messages or jobs, and recover from partitions without relying on that deployment. Optional public directories or bootstrap gateways may remain useful. “No required central server” is the goal; “no central services may exist” is not.
+
+
+---
+
 ## 11. Moving Ideas Out of the Parking Lot
 
 Ideas in this document have no implied priority.
