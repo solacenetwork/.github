@@ -89,6 +89,30 @@ When a member turns 18, their MID remains unchanged. The member may transition t
 
 The precise guardian-verification process, age-transition workflow, and parental permission settings will be specified during implementation.
 
+### 2.2.5 Household membership across locations and life changes
+
+**Design direction (not yet implemented):** A household is a persistent membership and ownership unit, not merely the people currently living at one address. Household membership, an individual's present geographic location, and access to household resources are distinct concepts.
+
+For example, a student attending college in another state may remain an authorized member of their family's HID. They can continue using household applications remotely when a secure connection is available, with the same household-level permissions as they would have at home. Physical proximity to the household does not determine membership or access.
+
+Membership can evolve through college, moving out, marriage, divorce, remarriage, stepfamilies, in-law relationships, death, and succession. SOLACE should support these transitions without assuming that every person belongs permanently to one physical address or that every family relationship needs to be recorded as a kinship category.
+
+**Cross-household linked membership (proposed):** When a member establishes or joins another household, the **Head of Household of the original HID** may choose to revoke the original membership or retain it as a link to that person's current identity. Conceptually, an old household-qualified membership resolves like a symbolic link:
+
+```text
+NID-A:HID-A:MID-A  --> linked to -->  NID-B:HID-B:MID-B
+```
+
+These qualified values illustrate *membership contexts*, not an agreed identifier format or a requirement to change a person's persistent MID. The intent is to preserve a recognizable relationship to the original household while resolving the member's current account/identity for authentication. The linked identity may reside in the same or another neighborhood.
+
+- **Household-controlled relationships:** The original Head of Household decides whether the previous household membership remains active as a linked association or is revoked. Exact authority/delegation and dispute procedures need later specification.
+- **No automatic privilege transfer:** A link identifies the person; it does not grant every member of the new household access to the old household, nor give the old household access to the new one. Permissions stay attached to the relevant household membership.
+- **Multiple affiliations:** A person may have authorized relationships with more than one household. Establishing a new HID or becoming its Head of Household does not by itself dictate whether a previous link continues.
+- **Independent households:** Each HID retains ownership of its own records, administrators, and decisions. Linked identities must not merge household databases or increase neighborhood voting weight by themselves.
+- **Lifecycle safeguards to design:** Revocation, link validation, stale or broken targets, cycles, identity reassignment, account recovery, death, and membership transitions require explicit rules before implementation.
+
+This is **not** a genealogy database or an automatic transfer of household resources. FID guardianship and minor-account protections remain separate and continue to apply where required. The link mechanism and exact access rules belong to future identity specifications, not Garden's V1 feature work.
+
 ### Example household structure
 
 ```mermaid
@@ -124,6 +148,28 @@ A neighborhood may have a Captain responsible for routine administration and coo
 Exact geographic membership and boundary-verification rules have not yet been finalized.
 
 Detailed rules for neighborhood creation, geographic boundaries, household eligibility, invitations, and transfers are documented in [Neighborhood Membership](NEIGHBORHOOD_MEMBERSHIP.md).
+
+### 2.4 Application identity, data ownership, and visibility
+
+**Long-term design principle:** SOLACE applications need not share one appearance or use the same participation identity. Common branding, launch/return navigation, and identity services can connect independent applications while each keeps its own UI, workflows, and storage architecture.
+
+Distinguish **ownership** (which entity owns data), **authorization** (which authenticated members may access it), and **external attribution** (which identity another participant sees). These can differ:
+
+| Application or activity | Intended primary scope | Notes |
+|---|---|---|
+| Garden, Neighborhood, Network, Directory | Household / HID | General participation and shared data are represented at household level; Neighborhood context may be NID:HID |
+| Neighborhood chat | Individual in neighborhood and household context | NID:HID:MID identifies the speaker where individual attribution is appropriate |
+| Home, Education, Library | Individual / HID:MID | More personal activity and preferences within a household |
+
+These are architectural examples to refine as each application is designed, not a requirement to expose internal identifiers in public URLs.
+
+**Garden example:** Gardening is normally a shared household activity. One HID owns the full Garden dataset; authorized household members use the same records and may edit them without Garden creating individual gardener profiles, per-MID record ownership, or action attribution. A member away from home retains access if the household continues to authorize them and the deployment supports secure remote connectivity. The standalone offline-first Garden PWA precedes online access; later hosted access and bidirectional sync are separate features requiring explicit authority and conflict-resolution rules.
+
+**Sharing is different from membership:** A household may eventually make selected Garden information publicly viewable or share it with invited, authenticated friends, relatives, and neighboring households. These external viewers are **read-only**; editing remains with authorized members of the owning HID or an authorized local Garden installation. A future central Sharing page could show recipients, content scope, and revocation controls. Login alone must never grant access to another household's private data.
+
+Public Garden presentation can use a chosen display label (for example, “Sally's Garden”) without disclosing the owning HID, individual MIDs, street address, or precise GPS location. Plant records, growing experience, selected photos, and selected journals are potential published content; private household and Garden data remain private by default. A future publishing policy could let the household reveal different *approximate location levels* (country, region, state, town) or explicitly opt in to exact coordinates, independently of private location data used for weather and frost guidance. Shared/public information and photo metadata must respect the selected disclosure boundary.
+
+**Phasing:** These hosted, linked-identity, and sharing concepts are future architectural directions. Garden V1 remains standalone/offline-first; V2 establishes authenticated hosted access; V3 is the intended two-way synchronization phase, with conflict policy designed before implementation. Public Garden publishing, graduated location visibility, and invitation-based sharing are **post-V2 candidates**, not V1/V2 launch requirements. App-specific roadmap documents determine their actual scheduling.
 
 ## 3. Initial Membership and Leadership
 
@@ -323,7 +369,8 @@ In particular, decentralized voting, SHD heartbeat validation, cryptographic aut
 The following questions require further discussion or phase-specific specifications:
 
 - Household membership invitations and approval procedures.
-- Multiple household affiliations or changes in household membership.
+- Multiple household affiliations, linked membership resolution and revocation, and transitions when a member establishes a new HID.
+- Cross-household link lifecycle, authentication versus authorization, identity reassignment, and effects on household voting and family guardianship.
 - Geographic neighborhood boundaries and membership verification.
 - Head of Household succession and household disputes.
 - Captain succession and removal procedures.
