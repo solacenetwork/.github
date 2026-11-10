@@ -283,6 +283,8 @@ Application names should remain understandable in ordinary text, documentation, 
 
 Distinctive typography, icons, or SVG wordmarks can supply additional visual identity without relying on decorative Unicode characters.
 
+**Shared identity does not require a shared visual template.** Garden may use a gardening-focused visual language, while Library, Neighborhood, Network, Home, and Education use interfaces suited to their tasks. A common SOLACE mark, recognizable naming and optional return-to-SOLACE navigation can establish family resemblance without imposing identical toolbars, colors, window frames, or component libraries. Historical simulated desktop-window styling is not an organization-wide brand requirement.
+
 Individual application repositories may maintain their own detailed branding specifications.
 
 ## 9. Marketing Campaign Concepts
