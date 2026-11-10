@@ -180,6 +180,14 @@ A local-first application could store data on the device and later synchronize w
 
 A household should be able to participate at a level appropriate to its available hardware and connectivity.
 
+### 4.3a SOLACE Main and application launch experience (future direction)
+
+The long-term user experience may begin with a **SOLACE** desktop shortcut opening a browser-based **SOLACE Main** launcher/menu. A household member chooses an application (Garden, Library, Neighborhood, Education, etc.), uses its own full interface, and can return to Main. SOLACE Main might be implemented with Laravel/Blade and MariaDB; independently built applications need not use that stack or be loaded into one shared JavaScript runtime.
+
+Applications may run as standalone PWAs, on a household SOS/SHD service (illustrative path: `http://localhost:8080/solace/garden/`), or through authenticated hosted services. The application's location and implementation stack should not define the household's identity or the ownership of its records. Authentication, authorization, the chosen data provider, and any synchronization are separate concerns; a different URL alone does not imply access to the same data.
+
+**Shared ecosystem, not identical interfaces:** Individual applications can have distinct layouts, colors, and workflows, with recognizable SOLACE branding and consistent expectations about launching and returning to Main. The historic **SOLACE App Engine (SAE)** prototype unloaded the Menu application to open another app and used a simulated window frame with a Close control to return. That is useful historical context, **not** a requirement to recreate window borders or SAE lifecycle machinery. Garden is being developed first as a useful standalone offline-first PWA, not as a dependency on the future launcher.
+
 ### 4.4 Optional services
 
 The architecture should support additional components without making every service mandatory.
