@@ -33,6 +33,14 @@ Members may access applications, participate in household activities, and exerci
 
 Membership accounts initially use centrally managed authentication.
 
+### Member preferences and profile administration
+
+**Design direction:** Every SOLACE member may have an individual preferences profile associated with their persistent MID. The profile follows the member's SOLACE identity rather than a particular Linux username, shared household computer, or device. Preferences (such as application display or accessibility settings) are distinct from private application records and from the SHD-wide `solace.config.json` managed by the Head of Household.
+
+A member can read and modify their own preferences. Other household members have no access by default. The Head of Household, or an explicitly authorized delegate, may receive **narrow administrative capabilities** to reset or repair a member's malfunctioning preferences; that role alone does not imply unrestricted access to the member's private documents, messages, journals, or other application data. Any guardian-specific authority over a minor belongs to the relevant family/guardian permissions, not automatically to every HoH.
+
+Member-level authorization must be enforced by SOLACE applications or services even when several people share one Linux account or a single backend service identity. The profile's storage technology, exact authorization controls, and reset/recovery procedures remain to be specified. Household-level service configuration is discussed in [Network Overview](NETWORK_OVERVIEW.md).
+
 ### 2.2 Households (HID)
 
 An HID represents a household rather than a particular person or computer.
