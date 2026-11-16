@@ -666,6 +666,16 @@ SOS applications should expose familiar tasks—**Home, Family, Files, Neighborh
 
 Example: a member selects a document in SOLACE Library and chooses **Share with Neighbor**. The local manager records the requested operation, obtains authorized access to the source, coordinates with the destination household, delegates transfers to appropriate services, verifies results, and reports status. The user should not need to understand which services executed the steps.
 
+### Household configuration and member profiles
+
+**Design direction:** A household-wide `solace.config.json` is controlled by the Head of Household (HoH) or an explicitly delegated administrator. It describes the SHD's service providers, endpoints, enabled integrations, networking choices, household defaults, and references to credentials. Its configuration should let a household select local, centrally coordinated, or later neighborhood-operated services without requiring applications to depend on a particular provider or deployment location. This is an architectural intent; the JSON schema and configuration-management workflow are not yet specified.
+
+Credentials, tokens, and private keys should not be stored directly in `solace.config.json`. Prefer established OS-level secrets facilities (for example, `pass` or systemd credentials) behind a provider interface rather than creating a SOLACE-specific secrets vault. Selection and evaluation remain open, especially for unattended Laravel/container services after reboot, least-privilege access, rotation, and recovery.
+
+**Individual member preferences are separate from SHD configuration.** Each member has an individual profile associated with their persistent MID, independent of their Linux account or current device. The member may read and change their own preferences; other household members cannot access them by default. The HoH or specifically authorized administrator may have **limited reset or repair permissions** for troubleshooting, without automatic unrestricted access to private member data. Administrative authority must be checked by the application even when several members share the same Linux service account. The profile storage format, storage location, and delegation details remain implementation decisions; see [Identity and Governance](IDENTITY_AND_GOVERNANCE.md).
+
+Keep **household infrastructure settings**, **individual preferences**, and **personal application data** distinct. Managing the SHD does not itself grant blanket access to a member's private documents, messages, or journals.
+
 ### Durable cross-household work
 
 Laravel queues, scheduled jobs, and local persistence can support retries and reconciliation. A proposed cross-household protocol should distinguish **requested**, **accepted**, **in progress**, **delivered**, **verified**, and **failed** states as appropriate. Jobs need stable IDs, authenticated authorization, idempotent handlers, bounded retries, expiration, and recovery after interrupted connectivity. A queue acknowledgment is not proof that a recipient received or can open a file.
