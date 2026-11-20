@@ -558,6 +558,27 @@ Potential communication paths include:
 
 The long-term goal is to allow applications and messaging services to operate across supported transports without requiring each application to understand the physical network.
 
+### Emergency-first communication (long-term architectural direction)
+
+SOLACE is intended as a **parallel communication network**, not a replacement for the internet. It should use ordinary internet connections when available and find other supported paths when they fail. Its lowest capability level prioritizes brief, useful **emergency check-ins** (for example, “We're here and doing OK”) before richer messaging, shared files, education, or media. Additional services become available as power, bandwidth, local computing, and connectivity permit; losing those resources should not automatically eliminate basic communication.
+
+The working design goal is **one useful transmission without depending on a follow-up lookup**. A short message should contain sufficient addressing, type and content to be interpreted locally, including across intermittent or low-bandwidth radio paths such as Meshtastic. Prefer one small radio packet when possible; fragmentation, reassembly, acknowledgments and retries are possible enhancements but cannot be assumed to succeed. Smaller messages improve airtime and delivery opportunities without guaranteeing delivery. The precise radio capacities and transport integrations must be measured rather than assumed.
+
+An early notebook sketch explored a human-readable `sn://` SOLACE Network envelope with region, NID, HID, MID, a type indicator and encoded payload:
+
+```text
+sn://988:0003293:320202:149209:m+SGkgTW9tISBXZSdyZSBkb2luZyBmaW5lIQ==
+sn://988:0003293:320202:149209:c+1113+m+North+shelter
+```
+
+The first payload decodes to “Hi Mom! We're doing fine!” The second is an **illustration** of an emergency code plus supplemental text (“We are evacuating” / “North shelter”). These examples are **historical/conceptual syntax, not a registered URI scheme, approved address layout, assigned codebook, or wire protocol**. In particular, the address's sender-versus-recipient role, separators/escaping, source authentication, versioning and compact binary encoding remain to be designed. Base64 is encoding, not encryption. A future native SOLACE handler might recognize `sn://`, while a PWA/browser needs its own compatible linking mechanism; transport and presentation syntax are distinct.
+
+A proposed small **offline emergency codebook** would give stable meanings to brief codes; `1111` (“All is well”) and `1113` (“We are evacuating”) are only examples. The discussed `1111–5555` range is a **candidate reservation**, not an allocation. A receiving app could translate recognized codes into locally stored language strings and display optional short text. Unknown codes should not be assigned a misleading emergency meaning. Optional signed messages could verify sender identity, and optional recipient encryption could protect confidentiality; neither should be silently assumed for an unencrypted emergency check-in.
+
+**Important People (emergency-only, opt-in):** During normal operation, only intended recipients receive ordinary message content, even if a node relays other traffic. While online, members may establish mutually approved, directional emergency-status following relationships (“friend requests”) and retain necessary permissions and verification keys locally. If a node later receives a **recognized emergency-code message** from an authorized Important Person, the local application may notify that follower even when the message was addressed to somebody else. This is **not** permission to expose unrelated private messages, ordinary traffic or GPS data. A relay's ability to observe and forward packets does not by itself authorize notification or content access. Identity verification, disclosure scope, consent revocation during partitions, replay protection, duplicate suppression and recipient visibility all need a future security design. Following does not guarantee receiving a message beyond reachable radio paths.
+
+This work draws different lessons from existing systems: Matrix-style federation may inform online neighborhood-to-neighborhood messaging, while LoRa/Meshtastic constrains the emergency layer. Neither is assumed to be SOLACE's required protocol. See [Parking Lot](PARKING_LOT.md) §1 for experiments and open details.
+
 ### 11.1 Delay-tolerant networking
 
 A future concept involves using portable SOLACE devices as passive data carriers between disconnected neighborhoods.
