@@ -266,6 +266,8 @@ Possible future roles include:
 
 Such integrations require separate technical evaluation.
 
+**Emergency-first radio design candidate (November 2026):** Test whether a small, self-contained SOLACE emergency-status message and optional codebook reference can fit within a single practical Meshtastic application packet, using actual hardware and radio settings. Measure on-air size, packet loss, power consumption, delivery opportunities, relay operation, and the consequences of fragmenting longer messages. The goal is basic check-ins under severe constraints, with richer functionality only when additional resources exist. The logical SOLACE message format should be transport-independent; specific firmware integration, radio payload budgets, and hardware selection are undecided. See [Network Overview](NETWORK_OVERVIEW.md) §11 and [Parking Lot](PARKING_LOT.md) §1.
+
 A radio device should not automatically be treated as equivalent to a full SHD.
 
 ## 7. Power and Energy Resilience
