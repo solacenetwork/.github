@@ -64,6 +64,28 @@ Different radio systems may have incompatible protocols and capabilities.
 
 No integration approach has been selected.
 
+### 1.3a Compact SOLACE emergency message envelope and codebook
+
+**Status (November 2026):** Design exploration only; no protocol, code allocation, or implementation commitment.
+
+- Explore a self-contained SOLACE message envelope for worst-case, intermittent communication: region, NID, HID, MID, explicit sender/destination roles, type, payload, protocol version, and minimal integrity/duplicate controls. Preserve the original notebook `sn://` concept as a **readable representation**, while evaluating compact binary transmission independent of URI syntax.
+- Original sketch: `sn://988:0003293:320202:149209:m+SGkgTW9tISBXZSdyZSBkb2luZyBmaW5lIQ==` (“Hi Mom! We're doing fine!”). An expanded sketch: `sn://988:0003293:320202:149209:c+1113+m+North+shelter`. These are illustrative rather than standards; the numeric address's role, delimiters, escaping, security and wire encoding are unresolved.
+- Investigate typed payloads such as message, structured data, links, GPS coordinates and radio frequencies; distinguish critical emergency status from larger optional content. A receiving application should understand core information without internet access or additional lookups.
+- Investigate an **offline emergency codebook**, with compact recognized codes plus optional text. Illustrative `1111` = “All is well”, `1113` = “We are evacuating”; `1111–5555` was floated as a reserved emergency-only range, **not** defined/assigned. Stable versioned definitions and offline localization might convey more meaning in fewer bytes. Unknown codes must not create emergency alerts by default.
+- Evaluate Meshtastic first as a constrained radio transport without assuming firmware changes. Research actual application payload limits, airtime, mesh capacity, and how external applications can send binary data. Aim for one small self-contained packet where feasible. If longer data needs fragmentation/reassembly, measure reliability, message IDs, deduplication, storage, expiration and loss of individual fragments. Do not assume that one transmission will succeed.
+- Preserve a clear difference between Base64-readable text, unencrypted content, optional **digital signatures** (authenticity) and optional **public-key encryption** (confidentiality). Default human-readable/encoded emergency communication was proposed; sender verification should be made clear in receiving UI. Determine authenticating data, key sharing, spoofing, replay, and consent enforcement before implementation.
+- Keep the emergency layer transport-agnostic and deliberately small; fast internet, Wi-Fi/LAN and mesh can provide additional capabilities as available. Consider Matrix's federation model as research for richer neighborhood messaging, not as a dependency of radio emergency packets.
+
+### 1.3b Important People — consent-based emergency status following
+
+**Status:** Exploratory emergency-only notification behavior, not a general social following feature.
+
+- Members may designate friends and relatives as **Important People**, using explicit, directional, approved requests while ordinary internet/server connectivity works. Synchronize approvals, public verification information and revocations to local devices **before outages** where possible.
+- **Normal mode:** Receive normal messages only when addressed/authorized to you; relays do not expose other people's private conversations.
+- **Emergency notification exception:** On receiving a *recognized emergency-only code* (candidate range `1111–5555`) sent by a locally authorized Important Person, the app may notify the follower **even if the packet's destination is another family member**. Example: a cousin sends an emergency status message to Mom, while approved cousins who hear the packet also learn they are safe. Ordinary messages do not trigger this feature.
+- Neither approval nor a relay's access to packet transport automatically grants access to private message text, location/GPS, or unrelated content. Explore a minimal shareable status field separate from recipient-only supplements; sender authenticity is especially important. Unverified claimed sender IDs should not be displayed as verified people.
+- One emergency status transmission could notify several authorized followers who happen to receive it, conserving airtime. This is not guaranteed delivery. Investigate offline-only authorization checks, revocation propagation across partitions, message repetition, replay protection, false alerts, and optional household-level notifications.
+
 ### 1.4 Cross-Neighborhood Message Relays
 
 Explore ways for neighborhoods to exchange information through volunteer-operated gateways, intermediary SHDs, or other authorized relay systems.
@@ -473,6 +495,17 @@ Explore ways for independently developed applications to connect with SOLACE ser
 The objective is to support a modular ecosystem without requiring all applications to share one codebase.
 
 Specific extension mechanisms remain undecided.
+
+### 8.5 Cross-application links, capture, and future link resolution
+
+**Status:** Future investigation across SOLACE applications; dates and versions are illustrative rather than committed.
+
+- **Local/offline:** Garden's Tasks and Wish List could receive prefilled items through a local bookmarklet or ordinary HTTPS/deep-link entry point; show a review/confirmation UI **before any IndexedDB write**. Offline sharing can generate formatted text for users to copy into messaging/email later; no remote URL resolution required to produce text.
+- **Online application services:** In later PHP API/database phases with authenticated household data and optional synchronization, support authorized import/share requests. People could exchange self-contained links representing copies of individual list items, rather than sharing access to their entire lists; the recipient reviews before importing.
+- **Shared link service:** Explore a SOLACE-operated short-link resolver (candidate name/domain `snlink.org`, **not purchased or committed**). Authenticated users/apps request short links; rate-limit per user/app with abuse prevention, supported destination types, revocation/expiration and safe redirect handling. Public resolution of intentionally shared links must remain distinct from authorization for protected resources.
+- **Decentralized evolution:** Evaluate a native `sn://` URI handler and typed payloads for future SOS/P2P applications without assuming all PWAs or browsers support that scheme. Prefer a common validated resource/payload format independent of whether transport is an HTTPS URL, short link, native URI, copied text or peer-to-peer exchange. A shortener is an optional convenience layer, not authoritative storage for application data or a dependency of offline functionality.
+- Separate the optional combined Garden Lists overview from the URL import/export API idea: neither requires the other.
+
 
 ---
 
