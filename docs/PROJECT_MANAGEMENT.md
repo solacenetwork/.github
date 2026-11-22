@@ -45,6 +45,21 @@ Do not maintain competing detailed status checklists in multiple locations. Duri
 
 Deleting completed monday.com items is an intentional rolling-window operation, **not** deletion of project history. An incomplete archival operation must leave the monday.com item in place until resolved.
 
+## Parking Lot — uncommitted ideas
+
+- **Ideas without an approved milestone belong in the relevant project's `PARKING_LOT.md`**, not in the monday.com execution pipeline. This includes feature suggestions, experiments, research questions, design alternatives, and potential future enhancements.
+- A Parking Lot entry is **not a development commitment**, assigned priority, due date, or authorization to interrupt the current milestone. Ideas may remain deferred indefinitely or be discarded.
+- Capture a concise description and any useful supporting links or context, without requiring a complete technical specification or creating a monday.com item.
+- **Promotion requires an explicit decision:** agree that the idea should be implemented, define an appropriate milestone scope and acceptance conditions, establish dependencies and an approved place in the sequential roadmap, update the master roadmap and relevant technical documents, then create or update its monday.com milestone entry. Do not silently promote ideas as part of unrelated work.
+- If new work changes an already approved milestone, revise that milestone and its execution sequence explicitly, documenting the effect on dependencies before proceeding.
+- Brainstorming and research can continue while a milestone is in progress, but do not divert implementation merely because a new idea has appeared.
+
+## Milestone-first planning
+
+- **Milestones are commitments to outcomes, not calendar dates.** Use their approved sequence and acceptance gates to track progress; do not invent deadlines or dates for a self-directed open-source project.
+- Dates, ownership, and scheduling fields are optional and should be used only when they convey meaningful information (for example, an actual external dependency). The board's visual emphasis should be on milestone identity, execution order, status, and GitHub references.
+- Review monday.com first for the current milestone and operational progress, then consult GitHub for the authoritative ordered backlog and technical requirements. When a milestone is accepted, update monday.com and the relevant GitHub records as needed.
+
 ## Garden-specific transition
 
 Garden is in the **post-8F UI redesign** tracked in [UI_REDESIGN.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/UI_REDESIGN.md). At adoption, **8A1–8A3 are accepted** and **UI 8A4** is next (waiting for the planned Codex reset). Complete **UI 8A4–8A9, UI 8B, UI 9, and UI 10** in approved order. **Then return to the separate V1 feature roadmap at 8G**, followed by 8H and later milestones. The two sequences bearing “8A” are unrelated.
