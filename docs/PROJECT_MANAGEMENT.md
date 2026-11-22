@@ -1,18 +1,18 @@
 # SOLACE Network — Project Management Policy
 
-**Status:** Adopted initial workflow (2026-11-21)  
+**Status:** Adopted workflow; revised 2026-11-22  
 **Scope:** SOLACE Network projects, initially SOLACE Garden, PlantDB, and the future Support Site. Does not include FreeTV or EM3K.
 
 ## Purpose and systems of record
 
 SOLACE uses a two-system approach:
 
-- **GitHub master roadmaps** are the authoritative, ordered, complete backlog of milestones (including milestones not yet in monday.com). They define *what* is planned and *in what approved order*.
-- **monday.com** is the operational source of truth for the *status, owner, schedule, and progress* of items currently in its rolling working window. The SOLACE Network board is at https://solacenetwork.monday.com/boards/18441033996.
+- **GitHub master roadmaps** are the authoritative, complete, approved sequence of milestones—past, current, and future. Each milestone stays listed, including completed ones, with concise scope, status, dependency/sequence information, and a link to its historical acceptance record where applicable. Roadmaps define *what* is planned and *in what approved order*, not a running transcript of past implementations.
+- **monday.com** is the operational source of truth for current milestone status, execution order, and progress for items on its board. While capacity allows, track the **entire approved project roadmap**, including completed milestones—not merely a rolling window. Owner, due-date, and timeline fields are optional, not required. The SOLACE Network board is at https://solacenetwork.monday.com/boards/18441033996.
 - **GitHub technical documents** (GOALS, TECH_SPEC, UI_REDESIGN, test notes, decision records and code) remain authoritative for requirements, architecture, implementation, and acceptance criteria.
-- **GitHub milestone-history documents** provide durable records of accepted work once its monday.com item is retired.
+- **GitHub milestone-history documents** provide durable, evidence-backed records of accepted work **as milestones are completed**, regardless of whether corresponding monday.com items remain on the board. Garden's archive is [MILESTONE_HISTORY.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/MILESTONE_HISTORY.md).
 
-Do not maintain competing detailed status checklists in multiple locations. During transition, existing Markdown completion evidence must remain intact. Never delete technical or historical details simply to simplify a roadmap.
+Do not maintain competing detailed status checklists in multiple locations. Maintain concise status in the master roadmap for completeness, live operational status in monday.com, and detailed completion evidence in the project's milestone-history document. Preserve technical decisions and history when condensing a roadmap; transfer records and verify links before removing original details.
 
 ## Sequence and dependencies
 
@@ -22,15 +22,16 @@ Do not maintain competing detailed status checklists in multiple locations. Duri
 4. A planned start date is not a promise. Quota resets or other resource limits may affect scheduling without changing the approved milestone order.
 5. Only accepted work unlocks the next dependent milestone. An implementation reported complete by an assistant or agent is not automatically accepted.
 
-## Full-board pilot and rolling monday.com window
+## Full-board tracking now; rolling window only if necessary
 
-- Use the existing **SOLACE Network** board for SOLACE projects only. **Initially keep the complete, currently defined Garden roadmap on monday.com**, including accepted historical milestones, because it fits comfortably below the Free plan's nominal 200-item limit. Organize original V1 and the separately inserted UI redesign in distinct groups.
-- **When approaching the plan limit**, transition to a rolling working window: retain approximately **two accepted milestones behind the current milestone and two approved milestones ahead** for immediate context, and include other project work only as necessary. Archive older accepted work to GitHub before removing its monday.com item. Keep a safety reserve for Garden, PlantDB and Support.
-- The GitHub master roadmap always retains the **complete, approved sequence** regardless of what is currently shown in monday.com. Retired items can be repopulated if required; do not infer that deletion cancels the milestone or its history.
-- **Table** is the primary ordered planning view; **Kanban** is a supplementary status view. Gantt, paid timelines and native automations must not be dependencies of this workflow.
-- Track each item with its stable milestone identifier, status, and link to the authoritative GitHub specification, plus optional priority, owner, date, or blocker. Use the board's existing columns where possible. Leave unknown dates blank rather than invent deadlines.
-- Keep the board readable; do not mirror all technical checklist details or create unnecessary subitems.
-- Before relying on the exact free-tier limit, or whether archived items/subitems count toward it, verify the currently applicable monday.com plan rules. This workflow does not require archival within monday.com.
+- Use the existing **SOLACE Network** board for SOLACE projects only. **Track every approved milestone for each active project while the plan has sufficient capacity**, including completed milestones. Organize substantial parallel sequences (e.g., Garden V1 features and its post-8F UI redesign) in separate groups. Do not delete completed items merely to keep the board small.
+- The current planning assumption is a **200-item Free-plan ceiling**; this is a capacity planning constraint, **not an independently verified statement about current monday.com billing or archive rules**. Before any capacity-driven pruning, check the account's actual limit and whether archived items, subitems, or other item types count. Retain a sensible reserve for Garden, PlantDB, Support, and other approved SOLACE work.
+- **When the board approaches a verified capacity constraint**, explicitly switch to a **capacity-based rolling milestone window**. Keep enough recently accepted milestones, active work, and upcoming approved milestones to preserve useful visual context across projects. The size of the window is flexible; there is **no mandatory two-behind/two-ahead rule**.
+- In rolling mode, retire the **oldest accepted items first**, only when their GitHub roadmap entries and detailed milestone-history records are complete and checked. Review the item's notes, updates, comments, links, and attachments for unique information before removing it; transfer anything historically important to GitHub. An incomplete transfer leaves the monday.com item in place. Never retire unaccepted work merely because it is old.
+- The GitHub master roadmap retains **all approved milestones and their order** even when monday.com shows only a rolling window. A retired board item is not a canceled milestone; it may be recreated from the roadmap if needed. Do not remove historical records from GitHub when freeing board capacity.
+- **Table** is the primary ordered planning view; **Kanban** is a supplementary status view. Gantt, paid timelines, and native automations must not be prerequisites.
+- Track each item using its stable namespaced milestone ID, status, execution order, and link to the authoritative GitHub specification. Use optional notes and priority when useful, but avoid copying extensive technical checklists into monday.com or creating unnecessary subitems. Dates and owner assignments are not required for a self-directed project.
+- No monday.com item retirement is authorized by this policy update alone; changing from full-board tracking to rolling mode is a separate, deliberate action.
 
 ## Execution and acceptance
 
@@ -39,11 +40,10 @@ Do not maintain competing detailed status checklists in multiple locations. Duri
 3. Update the monday.com status as work begins, is blocked, and moves through review.
 4. **Acceptance gate:** Record the developer's acceptance after necessary tests and manual checks. Do not mark accepted solely on an agent's completion report.
 5. Mark the monday.com item **Done** only on acceptance, not just code completion.
-6. Update its master roadmap status and preserve completion evidence. Add or update the project-specific **MILESTONE_HISTORY.md** with stable ID, acceptance date, succinct outcome, commit/PR references, applicable specification links, and any known caveats.
-7. **While comfortably under the plan limit, retain accepted items in monday.com** for a full visual history. When approaching capacity, **only after verifying the GitHub records are committed**, remove the oldest accepted items to free capacity. Ensure nothing unique is lost from item notes, comments, attachments, or dates.
-8. In rolling-window mode, retain roughly two accepted milestones behind, the current milestone, and two upcoming milestones in approved order; pull more from the master roadmap as capacity and planning require.
+6. Keep the milestone in the **complete GitHub roadmap** with its accepted status, concise scope and a link to its historical record. Add the evidence to the project-specific **MILESTONE_HISTORY.md**: stable ID, confirmed acceptance date if known, succinct outcome, commit/PR references, reported versus independently verified tests, relevant specification links, and caveats. Archive the details even while its monday.com item remains.
+7. Keep the accepted item marked **Done** in monday.com for visual history while board capacity allows. If rolling mode is later explicitly adopted, perform the record-preservation and verification checks described above **before** retiring accepted items.
 
-Deleting completed monday.com items is an intentional rolling-window operation, **not** deletion of project history. An incomplete archival operation must leave the monday.com item in place until resolved.
+Removing completed monday.com items in a future rolling window is a board-capacity operation, **not** deletion of project history. The complete roadmap and durable acceptance evidence must survive regardless of board size.
 
 ## Parking Lot — uncommitted ideas
 
@@ -62,10 +62,10 @@ Deleting completed monday.com items is an intentional rolling-window operation, 
 
 ## Garden-specific transition
 
-Garden is in the **post-8F UI redesign** tracked in [UI_REDESIGN.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/UI_REDESIGN.md). At adoption, **8A1–8A3 are accepted** and **UI 8A4** is next (waiting for the planned Codex reset). Complete **UI 8A4–8A9, UI 8B, UI 9, and UI 10** in approved order. **Then return to the separate V1 feature roadmap at 8G**, followed by 8H and later milestones. The two sequences bearing “8A” are unrelated.
+Garden is in the **post-8F UI redesign** tracked in [UI_REDESIGN.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/UI_REDESIGN.md). As of November 22, 2026, **UI 8A1–8A3 are accepted**, and **UI 8A4** is the next implementation slice. Complete **UI 8A4–8A9, UI 8B, UI 9, and UI 10** in approved order. **Then return to the separate V1 feature roadmap at 8G**, followed by 8H and later milestones. The two sequences bearing “8A” are unrelated.
 
-During the transition, keep the original [ROADMAP.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/ROADMAP.md) and UI redesign record intact, including evidence and accepted-history sections. Simplification and relocation of older milestone records are separate, reviewed changes; no historical record should be discarded.
+Garden's accepted implementation evidence has begun moving from [ROADMAP.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/ROADMAP.md) to [MILESTONE_HISTORY.md](https://github.com/solacenetwork/solace-garden/blob/main/docs/MILESTONE_HISTORY.md). The roadmap still lists the full approved sequence with concise status and references; the milestone-history archive preserves prior detailed completion reports. Retaining completed milestones on monday.com remains the default while capacity permits.
 
 ## Changes to this policy
 
-Revisit board structure and capacity as usage approaches the free-tier limit. The full-roadmap pilot is a convenience, not a change to GitHub's master-roadmap authority. Changes to the execution or archival process should be recorded here before altering established workflows.
+Revisit board structure and capacity when actual usage approaches the verified account limit. Full-board tracking is the present default, not a mandate to pay for additional capacity. Record any decision to adopt rolling mode here before changing how accepted items are retired; it does not change GitHub's master-roadmap authority.
