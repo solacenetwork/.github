@@ -72,6 +72,7 @@ Removing completed monday.com items in a future rolling window is a board-capaci
 
 - **Milestones are commitments to outcomes, not calendar dates.** Use their approved sequence and acceptance gates to track progress; do not invent deadlines or dates for a self-directed open-source project.
 - Dates, ownership, and scheduling fields are optional and should be used only when they convey meaningful information (for example, an actual external dependency). The board's visual emphasis should be on milestone identity, execution order, status, and GitHub references.
+- **Medium is the default monday.com priority** for ordinary milestones and tasks. It is a neutral baseline, not an indication of urgency; use higher or lower priority only when a specific item warrants it. Priority is a relative planning signal and **does not override approved roadmap sequence, dependencies, or acceptance gates**.
 - Review monday.com first for the current milestone and operational progress, then consult GitHub for the authoritative ordered backlog and technical requirements. When a milestone is accepted, update monday.com and the relevant GitHub records as needed.
 
 ## Garden-specific transition
